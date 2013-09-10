@@ -1,0 +1,51 @@
+<?php
+/**
+ * @file
+ * Trinity Protected Page module
+ */
+
+
+define('KEYWORD_DEFAULT_PAGE_URL', 'test');
+
+/**
+ * Implements hook_menu().
+ * @link http://api.drupal.org/api/function/hook_menu/7
+ */
+function url_keyword_menu() {
+  $items = array();
+  $items['admin/door3/url_keyword'] = array(
+    'title' => 'URL Keyword',
+    'description' => 'Configure URL Keyword.',
+    'type' => MENU_NORMAL_ITEM,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('url_keyword_admin_form'),
+    'access arguments' => array('administer site configuration'),
+    'menu name' => 'management',
+    'file' => 'url_keyword.admin.inc',
+  );
+  $items['admin/door3/url_keyword/create'] = array(
+    'title' => 'Create Keyword',
+    'description' => 'Create Keyword.',
+    'type' => MENU_LOCAL_TASK,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('url_keyword_create_form'),
+    'access arguments' => array('administer site configuration'),
+    'menu name' => 'management',
+    'file' => 'url_keyword.admin.inc',
+  );
+
+  $items[KEYWORD_DEFAULT_PAGE_URL] = array(
+    'title' => 'Test',
+    //'description' => 'Form to controll access to protected pages',
+    'type' => MENU_NORMAL_ITEM,
+    'page callback' => 'url_keyword_page',
+    //'page arguments' => array('trinity_pp_secure_form'),
+    'access arguments' => array('access content'),
+  );
+ 
+  return $items;
+}
+
+function url_keyword_page() {
+  return 'test';
+}
