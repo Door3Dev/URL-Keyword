@@ -1,0 +1,6 @@
+name = URL Keyword
+description = Allows an admin to set URL keyword variables
+core = 7.x
+version = 7.x-dev
+package = DOOR3
+configure = admin/door3/url_keyword
