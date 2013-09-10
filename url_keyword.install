@@ -1,0 +1,71 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for File module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function url_keyword_schema() {
+  $schema['url_keyword'] = array(
+    'description' => 'Stores keywords and page data.',
+    'fields' => array(
+      'kwid' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique comment ID.',
+      ),
+      'keyword' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => "Keyword",
+      ),
+      'page_title' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Page Title',
+      ),
+      'h1' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => "H1 Headline",
+      ),
+      'body' => array(
+        'description' => 'A description of the file.',
+        'type' => 'text',
+        'not null' => FALSE,
+      ),
+      'created' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'The time that the keyword was created, as a Unix timestamp.',
+      ),
+      'changed' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'The time that the keyword was last edited, as a Unix timestamp.',
+      ),
+      'status' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 1,
+        'size' => 'tiny',
+        'description' => 'The published status of a keyword. (0 = Not Published, 1 = Published)',
+      ),
+      
+    ),
+    'primary key' => array('kwid'),
+  );
+  return $schema;
+}
