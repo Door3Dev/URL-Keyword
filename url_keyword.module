@@ -36,13 +36,12 @@ function url_keyword_menu() {
 
 function url_keyword_preprocess_page(&$vars) {
   if ($vars['node']->type == 'ppc') {
-
       $actual_link = "$_SERVER[REQUEST_URI]";
       $indexOf = strrpos($actual_link, "kw=");
+
     if ($indexOf > 1) {
       list($leftover, $kw) = split('kw=', $actual_link);
       list($kw, $leftover) = split('&', $kw);
-
       $query = db_select('url_keyword', 'uk');
       $query->fields('uk', array('kwid','keyword','page_title','h1'))
             ->condition('uk.keyword', $kw, '=');
