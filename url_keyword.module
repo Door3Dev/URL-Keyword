@@ -1,11 +1,4 @@
 <?php
-/**
- * @file
- * Trinity Protected Page module
- */
-
-
-define('KEYWORD_DEFAULT_PAGE_URL', 'test');
 
 /**
  * Implements hook_menu().
@@ -34,18 +27,39 @@ function url_keyword_menu() {
     'file' => 'url_keyword.admin.inc',
   );
 
-  $items[KEYWORD_DEFAULT_PAGE_URL] = array(
-    'title' => 'Test',
-    //'description' => 'Form to controll access to protected pages',
-    'type' => MENU_NORMAL_ITEM,
-    'page callback' => 'url_keyword_page',
-    //'page arguments' => array('trinity_pp_secure_form'),
-    'access arguments' => array('access content'),
-  );
- 
   return $items;
 }
 
-function url_keyword_page() {
-  return 'test';
+/**
+ * Implements hook_preprocess_page().
+ */
+
+function url_keyword_preprocess_page(&$vars) {
+  if ($vars['node']->type == 'ppc') {
+
+      $actual_link = "$_SERVER[REQUEST_URI]";
+      $indexOf = strrpos($actual_link, "kw=");
+    if ($indexOf > 1) {
+      list($leftover, $kw) = split('kw=', $actual_link);
+      list($kw, $leftover) = split('&', $kw);
+      dsm($kw);
+
+      $query = db_select('url_keyword', 'uk');
+      $query->fields('uk', array('kwid','keyword','page_title','h1'))
+            ->condition('uk.keyword', $kw, '=');
+      $results = $query->execute();
+
+      if ($results) {
+        foreach($results as $result) {
+          $row[] = array(
+          'kwid' => $result->kwid,
+          'keyword' => $result->keyword,
+          'page_title' => $result->page_title,
+          'h1' => $result->h1,
+          );
+        }
+      }
+    }
+  }
 }
+
