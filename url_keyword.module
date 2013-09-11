@@ -42,7 +42,6 @@ function url_keyword_preprocess_page(&$vars) {
     if ($indexOf > 1) {
       list($leftover, $kw) = split('kw=', $actual_link);
       list($kw, $leftover) = split('&', $kw);
-      dsm($kw);
 
       $query = db_select('url_keyword', 'uk');
       $query->fields('uk', array('kwid','keyword','page_title','h1'))
